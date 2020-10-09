@@ -1,6 +1,23 @@
 from mmsdk import mmdatasdk as md
 import os
 
+def get_mosi_text(save_name):
+	fout = open(save_name, 'w')
+	dataset = load_dataset()
+    text_files = os.listdir("/misc/kfdata01/kf_grp/hrwang/socialKG/raw_data/Raw/Transcript/Segmented")
+	for text_file in text_files:
+		video_name = text_file.split('.')[0]
+		with open(os.path.join("/misc/kfdata01/kf_grp/hrwang/socialKG/raw_data/Raw/Transcript/Segmented", text_file), 'r') as f:
+			i = 1
+			for line in f.readlines():
+				line = line.strip()
+				text = line.replace(str(i) + '_DELIM_', '')
+				label = get_mosi_label(dataset, video_name, i-1)
+				i += 1
+				fout.write(text + ',' + str(label) + '\n')
+
+	fout.close()
+
 
 def load_dataset():
 	visual_field = 'CMU_MOSI_Visual_Facet_41'
@@ -27,7 +44,4 @@ def get_mosi_label(dataset, video_id, segement_id):
 	return dataset[label_field][video_id]['features'][segement_id][0]
 
 if __name__ == '__main__':
-	dataset = load_dataset()
-	label = get_mosi_label(dataset, '0h-zjBukYpk', 2)
-	label = get_mosi_label(dataset, '0h-zjBukYpk', 24)
-	print(label)
+	get_mosi_text('mosi_text_data.txt')
