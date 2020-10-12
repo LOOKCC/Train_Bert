@@ -69,6 +69,6 @@ for epoch in range(epochs):
     avg_train_loss = total_loss / len(train_dataloader)
     avg_val_loss = total_val_loss / len(val_dataloader)
     
-    print('Train loss     : {avg_train_loss}')
-    print('Validation loss: {avg_val_loss}')
+    print('Train loss', avg_train_loss)
+    print('Validation loss', avg_val_loss)
     print('\n')

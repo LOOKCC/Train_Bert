@@ -21,9 +21,8 @@ def encode_fn(text_list, tokenizer):
     for text in text_list:
         input_ids = tokenizer.encode(
                         text,                      
-                        add_special_tokens = True,  
-                        max_length = 80,        
-                        pad_to_max_length = True,   
+                        add_special_tokens = True,   
+                        padding='max_length',      
                         return_tensors = 'pt'       
                    )
         all_input_ids.append(input_ids)    
