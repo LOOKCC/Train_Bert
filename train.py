@@ -9,7 +9,7 @@ from utils import get_data, encode_fn
 from transformers import get_linear_schedule_with_warmup
 
 
-batch_size = 1
+batch_size = 4
 epochs = 50
 seed = 42
 random.seed(seed)
@@ -45,6 +45,7 @@ scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=0, num_t
 
 
 for epoch in range(epochs):
+    print('epoch:', epoch)
     model.train()
     total_loss, total_val_loss = 0, 0
     for step, batch in enumerate(train_dataloader):
@@ -71,4 +72,6 @@ for epoch in range(epochs):
     
     print('Train loss', avg_train_loss)
     print('Validation loss', avg_val_loss)
-    print('\n')
+
+tokenizer.save_pretrained('tokenizer')
+model.save_pretrained('bert_model')
