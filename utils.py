@@ -17,14 +17,36 @@ def get_data(file_path):
     labels = []
     with open(file_path, 'r') as f:
         for line in f.readlines():
-            words, label = line.split(',')
+            words, label = line.split('\t')
             text.append(words)
-            if float(label) > 0:
-                labels.append(1)
-            if float(label) <= 0:
-                labels.append(0)
+            labels.append(int(label))
+            #if float(label) > 0:
+            #    labels.append(1)
+            #if float(label) <= 0:
+            #    labels.append(0)
     return text, labels
 
+def get_deception_data():
+    fout = open('./deception/deception.txt', 'w')
+    Truthful = os.listdir('deception/Transcription/Truthful/') 
+    Truthful = sorted(Truthful)
+    
+    Deceptive = os.listdir('deception/Transcription/Deceptive/') 
+    Deceptive = sorted(Deceptive)
+
+    for file_name in Truthful:
+        path = 'deception/Transcription/Truthful/' + file_name
+        with open(path, 'r') as f:
+            text = f.readline()
+        fout.write(text + '\t1\n')
+       
+    for file_name in Deceptive:
+        path = 'deception/Transcription/Deceptive/' + file_name
+        with open(path, 'r') as f:
+            text = f.readline()
+        fout.write(text + '\t0\n')
+ 
+    fout.close()
 
 def encode_fn(text_list, tokenizer):
     all_input_ids = []    
@@ -41,4 +63,5 @@ def encode_fn(text_list, tokenizer):
 
 
 
-
+if __name__ == '__main__':
+    get_deception_data()
